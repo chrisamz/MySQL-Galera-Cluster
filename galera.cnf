@@ -1,0 +1,53 @@
+# galera.cnf
+# Galera Cluster configuration settings
+
+[mysqld]
+# Path to Galera library
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+
+# Cluster connection URL - replace node1, node2, and node3 with actual IPs or hostnames
+wsrep_cluster_address="gcomm://node1,node2,node3"
+
+# Node name - should be unique for each node
+wsrep_node_name=node1
+
+# Node address - IP address of this node
+wsrep_node_address="node1"
+
+# SST method - options are rsync, xtrabackup, mysqldump, etc.
+wsrep_sst_method=rsync
+
+# Authentication for SST method
+wsrep_sst_auth="sstuser:password"
+
+# Cluster name
+wsrep_cluster_name="my_galera_cluster"
+
+# InnoDB settings
+innodb_autoinc_lock_mode=2
+default_storage_engine=InnoDB
+
+# Replication settings
+wsrep_on=ON
+wsrep_causal_reads=ON
+
+# Node-internal settings
+binlog_format=row
+log_slave_updates=ON
+
+# Galera performance settings
+wsrep_slave_threads=4
+wsrep_log_conflicts=ON
+
+# Diagnostics settings
+wsrep_provider_options="gcache.size=512M"
+
+# Ensure MySQL listens on all interfaces (for local testing) or a specific IP
+bind-address=0.0.0.0
+
+# General settings
+user=mysql
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+log-error=/var/log/mysql/error.log
+pid-file=/var/run/mysqld/mysqld.pid
